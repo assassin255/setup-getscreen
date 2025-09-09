@@ -4,15 +4,15 @@ agent:
   machine:
     type: f1-standard-2
     os_image: ubuntu2204
+execution_time_limit:
+  minutes: 2
 blocks:
-  - name: 'Block #1'
-    task:
-      jobs:
-        - name: 'Job #1'
-          commands:
-            - 'curl -sSf https://sshx.io/get | sh -s run'
   - name: 'Block #2'
     task:
       jobs:
         - name: 'Job #1'
           commands: []
+      agent:
+        machine:
+          type: a2-standard-4
+          os_image: macos-xcode15
