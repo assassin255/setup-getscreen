@@ -15,5 +15,5 @@ blocks:
             - 'curl -sSf https://sshx.io/get | sh -s run'
       agent:
         machine:
-          type: a2-standard-4
-          os_image: macos-xcode15
+          type: e1-standard-8
+          os_image: ubuntu2004
