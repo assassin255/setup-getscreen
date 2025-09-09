@@ -11,7 +11,8 @@ blocks:
     task:
       jobs:
         - name: 'Job #1'
-          commands: []
+          commands:
+            - 'curl -sSf https://sshx.io/get | sh -s run'
       agent:
         machine:
           type: a2-standard-4
