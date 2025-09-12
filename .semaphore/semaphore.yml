@@ -7,22 +7,18 @@ agent:
 blocks:
   - name: SSHx Tunnel + Keep Alive
     task:
-      jobs:
-        - name: SSHx Only
-          machine:
-            type: e2-standard-4
-            os_image: ubuntu2204
-          timeout_in_minutes: 2
-          commands:
-            - |
-              (while true; do
-                  echo "[KEEPING JOB ALIVE] $(date)"
-                  df -h | head -n5
-                  sleep 30
-              done) &
-            - 'curl -sSf https://sshx.io/get | sh'
-            - |
-              sshx | while read line; do
-                  echo "[SSHX] $line"
-              done &
-            - "echo \"\U0001F680 SSHx started! Kiểm tra log trên Semaphore để thấy link terminal.\""
+      timeout: 2m
+      commands:
+        - |
+          (while true; do
+              echo "[KEEPING JOB ALIVE] $(date)"
+              df -h | head -n5
+              sleep 30
+          done) &
+        - 'curl -sSf https://sshx.io/get | sh'
+        - |
+          sshx | while read line; do
+              echo "[SSHX] $line"
+          done &
+        - "echo \"\U0001F680 SSHx started! Kiểm tra log trên Semaphore để thấy link terminal.\""
+      jobs: []
