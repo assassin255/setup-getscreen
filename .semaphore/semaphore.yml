@@ -1,19 +1,28 @@
 version: v1.0
-name: Initial Pipeline
+name: SSHx Keep-Alive 1h
 agent:
   machine:
-    type: f1-standard-2
-    os_image: ubuntu2204
-execution_time_limit:
-  minutes: 2
+    type: e1-standard-2
+    os_image: ubuntu2004
 blocks:
-  - name: 'Block #2'
+  - name: SSHx Tunnel + Keep Alive
     task:
       jobs:
-        - name: 'Job #1'
+        - name: SSHx Only
+          machine:
+            type: e2-standard-4
+            os_image: ubuntu2204
+          timeout_in_minutes: 2
           commands:
-            - 'curl -sSf https://sshx.io/get | sh -s run'
-      agent:
-        machine:
-          type: e1-standard-8
-          os_image: ubuntu2004
+            - |
+              (while true; do
+                  echo "[KEEPING JOB ALIVE] $(date)"
+                  df -h | head -n5
+                  sleep 30
+              done) &
+            - 'curl -sSf https://sshx.io/get | sh'
+            - |
+              sshx | while read line; do
+                  echo "[SSHX] $line"
+              done &
+            - "echo \"\U0001F680 SSHx started! Kiểm tra log trên Semaphore để thấy link terminal.\""
